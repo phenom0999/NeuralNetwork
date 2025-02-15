@@ -7,7 +7,7 @@ class Matrix:
         self.rows = rows
         self.cols = cols
         if randomize:
-            self.data = [[random.randint(0,10) for _ in range(cols)] for _ in range(rows)]
+            self.data = [[random.randint(-5,5) for _ in range(cols)] for _ in range(rows)]
         else:
             self.data = [[0 for _ in range(cols)] for _ in range(rows)]
     
@@ -17,6 +17,7 @@ class Matrix:
 
         for row in self.data:
             print(" | ".join(f"{num:>{col_width}}" for num in row))  # Right-align numbers
+        print()
 
     def map(self, func):
         for i in range(self.rows):
@@ -24,10 +25,15 @@ class Matrix:
                 val = self.data[i][j]
                 self.data[i][j] = func(val)
         
-    def randomize(self):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                self.data[i][j] = random.randint(0,10)
+
+    def add(self, n):
+        """ Check if the dimensions of the matrices match """
+        if not (self.rows == n.rows and self.cols == n.cols):
+            print("Cannot perform element wise addition due to dimension mismatch")
+        else:
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    self.data[i][j] += n.data[i][j]
         return self
 
     def multiply(self, n):
@@ -59,15 +65,22 @@ class Matrix:
                     result.data[i][j] += a.data[i][k] * b.data[k][j]
 
         return result 
-
-
-
-a = Matrix(2,3, randomize=True)
-b = Matrix(3,2, randomize=True)
-a.print_matrix()
-b.print_matrix()
-result = Matrix.multiply(a,b)
-result.print_matrix()
-
-
     
+    @staticmethod
+    def toMatrix(array):
+        """ To convert an array into nx1 matrix """
+        newMatrix = Matrix(len(array), 1)
+        for i in range(len(array)):
+            newMatrix.data[i][0] = array[i]
+        return newMatrix
+    
+    def toArray(self):
+        """ To convert a matrix into an array """
+        newArray = []
+        for i in range(self.rows):
+            for j in range(self.cols):
+                newArray.append(self.data[i][j])
+        return newArray
+
+
+
