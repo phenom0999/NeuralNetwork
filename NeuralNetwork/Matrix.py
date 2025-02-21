@@ -19,11 +19,19 @@ class Matrix:
             print(" | ".join(f"{num:>{col_width}}" for num in row))  # Right-align numbers
         print()
 
-    def map(self, func):
+    def map_n(self, func):
         for i in range(self.rows):
             for j in range(self.cols):
                 val = self.data[i][j]
                 self.data[i][j] = func(val)
+
+    @staticmethod
+    def map(a, func):
+        for i in range(a.rows):
+            for j in range(a.cols):
+                val = a.data[i][j]
+                a.data[i][j] = func(val)
+        return a
         
 
     def add(self, n):
@@ -36,7 +44,7 @@ class Matrix:
                     self.data[i][j] += n.data[i][j]
         return self
 
-    def multiply(self, n):
+    def multiply_scalar(self, n):
         """ Scalar multiplication """
         if isinstance(n, float):
             for i in range(self.rows):
@@ -45,6 +53,19 @@ class Matrix:
         else:
             print("Cannot perform scalar multiplication with a non numeric character")
         return self
+    
+    def multiply_hadamard(self, a):
+        """ Element wise multiplication """
+        """ Check if the dimension of the matrices match """
+        if not (self.rows == a.rows and self.cols == a.cols): # check for dimension mismatch
+            print("Cannot perform hadamard matrix multiplication due to dimension mismatch")
+            return None
+        
+        """ Perform element wise multiplication"""
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.data[i][j] *= a.data[i][j]
+        
 
     @staticmethod
     def multiply(a, b):
@@ -65,6 +86,26 @@ class Matrix:
                     result.data[i][j] += a.data[i][k] * b.data[k][j]
 
         return result 
+    
+    @staticmethod 
+    def transpose(a):
+        result = Matrix(a.cols, a.rows)
+        for i in range(result.rows):
+            for j in range(result.cols):
+                result.data[i][j] = a.data[j][i]
+        return result
+    
+    @staticmethod
+    def subtract(a, b):
+        """ Check if the dimensions of the matrices match """
+        if not (a.rows == b.rows and a.cols == b.cols):
+            print("Cannot perform element wise addition due to dimension mismatch")
+        else:
+            result = Matrix(a.rows, a.cols)
+            for i in range(a.rows):
+                for j in range(b.cols):
+                    result.data[i][j] = a.data[i][j] - b.data[i][j]
+        return result
     
     @staticmethod
     def toMatrix(array):
