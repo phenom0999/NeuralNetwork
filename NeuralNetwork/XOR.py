@@ -20,7 +20,7 @@ screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
 pygame.display.set_caption("XOR Neural Network")
 
 
-nn = NeuralNetwork(2,[20,20],1)
+nn = NeuralNetwork(2,[4],1)
 nn.set_learning_rate(0.01)
 
 def draw_grid():
@@ -34,7 +34,7 @@ def draw_grid():
             inputs = [x1, x2]
             y = nn.feedforward(inputs)
             color_value = y[0] * 255
-            color = (color_value, 0, color_value)
+            color = (color_value, color_value / 2, color_value/4)
 
             rect = pygame.Rect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(screen, color, rect)
