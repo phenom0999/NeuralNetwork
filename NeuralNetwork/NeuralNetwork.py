@@ -37,15 +37,17 @@ class NeuralNetwork:
     def set_learning_rate(self, lr):
         self.learning_rate = lr
     
+    
     def feedforward(self, input_array):
 
-        """ Convert the inputs array into nx1 matrix """
+        """Convert the inputs array into nx1 matrix """
         inputs = Matrix.toMatrix(input_array)
         current_activation = inputs 
 
         for i in range(len(self.weights)):
             # Compute weighted sum and apply activation function
             current_activation = Matrix.multiply(self.weights[i], current_activation)
+            current_activation.print_matrix()
             current_activation.add(self.biases[i])
             current_activation.map_n(sigmoid)
         

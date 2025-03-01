@@ -1,35 +1,15 @@
-import pygame
-import random
+import matplotlib.pyplot as plt
 
-pygame.init()
+fig = plt.figure(figsize=(10, 5))
 
-WINDOW_SIZE = 600  # Window dimensions: 600x600 pixels
-GRID_SIZE = 100    # 100 cells per row and column
-CELL_SIZE = WINDOW_SIZE // GRID_SIZE  # Each cell's size
+plt.subplot(1, 2, 1)  # (rows, cols, index)
+plt.plot(x, y1, label="sin(x)")
+plt.legend()
+plt.title("Sine Wave")
 
-screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
-pygame.display.set_caption("Random Color 100x100 Grid")
+plt.subplot(1, 2, 2)
+plt.plot(x, y2, label="cos(x)", color="red")
+plt.legend()
+plt.title("Cosine Wave")
 
-def draw_grid():
-    for row in range(GRID_SIZE):
-        for col in range(GRID_SIZE):
-            # Generate a new random color for each cell every frame
-            random_color = (
-                random.randint(0, 255),
-                random.randint(0, 255),
-                random.randint(0, 255)
-            )
-            rect = pygame.Rect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE)
-            pygame.draw.rect(screen, random_color, rect)
-
-running = True
-while running:
-    screen.fill((255, 255, 255))  # Clear the screen with white
-    draw_grid()                   # Draw the grid with random colors
-    pygame.display.flip()         # Update the display
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-pygame.quit()
+plt.show()
